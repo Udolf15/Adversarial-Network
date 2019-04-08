@@ -57,11 +57,6 @@ def download_file(url, file_path):
         raise Exception("Incomplete download")
 
 
-def download_from_github(version, fn, target_dir):
-    url = "https://github.com/hse-aml/intro-to-dl/releases/download/{0}/{1}".format(version, fn)
-    file_path = os.path.join(target_dir, fn)
-    download_file(url, file_path)
-
 
 def sequential_downloader(version, fns, target_dir):
     os.makedirs(target_dir, exist_ok=True)
@@ -86,43 +81,8 @@ def link_all_files_from_dir(src_dir, dst_dir):
                 os.symlink(os.path.abspath(src_file), dst_file)
 
 
-def download_all_keras_resources(keras_models, keras_datasets):
-    # Originals:
-    # http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
-    # https://github.com/fchollet/deep-learning-models/releases/download/v0.5/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5
-    # https://s3.amazonaws.com/img-datasets/mnist.npz
-    sequential_downloader(
-        "v0.2",
-        [
-            "inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5"
-        ],
-        keras_models
-    )
-    sequential_downloader(
-        "v0.2",
-        [
-            "cifar-10-batches-py.tar.gz",
-            "mnist.npz"
-        ],
-        keras_datasets
-    )
 
-
-def download_week_3_resources(save_path):
-    # Originals:
-    # http://www.robots.ox.ac.uk/~vgg/data/flowers/102/102flowers.tgz
-    # http://www.robots.ox.ac.uk/~vgg/data/flowers/102/imagelabels.mat
-    sequential_downloader(
-        "v0.3",
-        [
-            "102flowers.tgz",
-            "imagelabels.mat"
-        ],
-        save_path
-    )
-
-
-def download_week_4_resources(save_path):
+def download_resources(save_path):
     # Originals
     # http://www.cs.columbia.edu/CAVE/databases/pubfig/download/lfw_attributes.txt
     # http://vis-www.cs.umass.edu/lfw/lfw-deepfunneled.tgz
@@ -138,36 +98,5 @@ def download_week_4_resources(save_path):
     )
 
 
-def download_week_6_resources(save_path):
-    # Originals:
-    # http://msvocds.blob.core.windows.net/annotations-1-0-3/captions_train-val2014.zip
-    sequential_downloader(
-        "v0.1",
-        [
-            "captions_train-val2014.zip",
-            "train2014_sample.zip",
-            "train_img_embeds.pickle",
-            "train_img_fns.pickle",
-            "val2014_sample.zip",
-            "val_img_embeds.pickle",
-            "val_img_fns.pickle"
-        ],
-        save_path
-    )
 
 
-def link_all_keras_resources():
-    link_all_files_from_dir("../readonly/keras/datasets/", os.path.expanduser("~/.keras/datasets"))
-    link_all_files_from_dir("../readonly/keras/models/", os.path.expanduser("~/.keras/models"))
-
-
-def link_week_3_resources():
-    link_all_files_from_dir("../readonly/week3/", ".")
-
-
-def link_week_4_resources():
-    link_all_files_from_dir("../readonly/week4/", ".")
-
-
-def link_week_6_resources():
-    link_all_files_from_dir("../readonly/week6/", ".")
